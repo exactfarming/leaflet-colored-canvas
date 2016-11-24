@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Example</title>
+  <style>
+    html, body {
+      /*margin: 0;*/
+      /*padding: 0;*/
+    }
+
+    #container {
+      display: inline-block;
+      width: 100%;
+    }
+
+    .controls {
+      width: 400px;
+    }
+
+    #map {
+      display: inline-block;
+      width: 800px;
+      height: 500px;
+    }
+
+    #flex-container {
+      display: flex;
+      flex-direction: row;
+      /*justify-items: center;*/
+      justify-content: space-between;
+    }
+
+    #alg {
+      width: 400px;
+    }
+
+    .title {
+      text-align: center;
+    }
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+</head>
+<body>
+<h3 class="title">It`s time to color map ;)</h3>
+<div id="container">
+  <div id="flex-container">
+    <div class="col controls">
+      <div class="col">
+        <i>All data is saved immidiately to localStorage ;)</i>
+        <hr>
+      </div>
+      <div class="col">
+        <div>
+          zoom: <input type="number" id="zoom" oninput="changeMapZoom(document.getElementById('zoom').value);">
+        </div>
+        <div>
+          lat:<input type="number" id="lat"
+                     oninput="changeMapPosition(document.getElementById('lat').value, document.getElementById('lng').value)">
+        </div>
+        <div>
+          lng:<input type="number" id="lng"
+                     oninput="changeMapPosition(document.getElementById('lat').value, document.getElementById('lng').value)">
+        </div>
+        <hr>
+      </div>
+      <div class="col">
+        <div>Custom algorithm:</div>
+        <textarea id="alg" rows="10" oninput="applyCustomAlg()"></textarea>
+        <!--<button onclick="applyCustomAlg()">apply</button>-->
+        <hr>
+      </div>
+      <div class="col buttons">
+        <div>Algorithms</div>
+        <button onclick="changeAlgorithm('invert')">invert</button>
+        <button onclick="changeAlgorithm('grayscale')">grayscale</button>
+        <hr>
+      </div>
+      <div class="col" id="tiles">
+        <div>Original tiles:</div>
+      </div>
+    </div>
+    <div class="col map">
+      <div id="map"></div>
+      <canvas id="zoom_canvas" width="200" height="200"></canvas>
+    </div>
+  </div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+<script src="./index.js"></script>
+</body>
+</html>
