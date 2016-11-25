@@ -169,7 +169,7 @@ map.on('moveend', function (e) {
 document.getElementById('lat').value = latGlobal;
 document.getElementById('lng').value = lngGlobal;
 
-var tile = new CanvasLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+var tile = new CanvasLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
   maxZoom: 19,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
