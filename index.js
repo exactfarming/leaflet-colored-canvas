@@ -15,8 +15,14 @@ var cachedInvertFunc = cache(function (item) {
 var cachedGrayScaleFunc = cache(function (a, b, c) {
   return (a + b + c) / 3;
 });
+var cachedCustomFunc;
+try {
+  cachedCustomFunc = cache(new Function('item', 'return item;'));
+} catch (e) {
+  cachedCustomFunc = function () {
+  };
+}
 
-var cachedCustomFunc = cache(new Function('item', 'return item;'));
 
 var customAlg;
 
@@ -153,7 +159,7 @@ map.on('zoomend', function () {
 });
 document.getElementById('zoom').value = zoom;
 
-map.on('moveend', function(e) {
+map.on('moveend', function (e) {
 
   var lat = parseFloat(this.getCenter().lat.toFixed(4));
   var lng = parseFloat(this.getCenter().lng.toFixed(4));
