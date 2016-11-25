@@ -15,14 +15,6 @@ var cachedInvertFunc = cache(function (item) {
 var cachedGrayScaleFunc = cache(function (a, b, c) {
   return (a + b + c) / 3;
 });
-var cachedCustomFunc;
-try {
-  cachedCustomFunc = cache(new Function('item', 'return item;'));
-} catch (e) {
-  cachedCustomFunc = function () {
-  };
-}
-
 
 var customAlg;
 
@@ -32,14 +24,28 @@ var changeAlgorithm = function (type) {
 
   tile.redraw();
 };
+var timer, customAlg;
 var applyCustomAlg = function () {
+  if (timer) {
+    clearTimeout(timer);
+    timer = null;
+  } else {
+    timer = setTimeout(function () {
+      var funcText = document.getElementById('alg').value;
 
-  var funcText = document.getElementById('alg').value;
 
-  customAlg = new Function('data', funcText);
-  tile.redraw();
+      try {
+        customAlg = new Function('data', funcText);
+      } catch (e) {
+        customAlg = function () {
+        };
+      }
 
-  localStorage.setItem('custom_alg', funcText);
+      tile.redraw();
+
+      localStorage.setItem('custom_alg', funcText);
+    }, 500);
+  }
 };
 
 var CanvasLayer = L.TileLayer.extend({
