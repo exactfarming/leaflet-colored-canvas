@@ -24,28 +24,18 @@ var changeAlgorithm = function (type) {
 
   tile.redraw();
 };
-var timer, customAlg;
+var customAlg;
 var applyCustomAlg = function () {
-  if (timer) {
-    clearTimeout(timer);
-    timer = null;
-  } else {
-    timer = setTimeout(function () {
-      var funcText = document.getElementById('alg').value;
+  var funcText = document.getElementById('alg').value;
 
-
-      try {
-        customAlg = new Function('data', funcText);
-      } catch (e) {
-        customAlg = function () {
-        };
-      }
-
-      tile.redraw();
-
-      localStorage.setItem('custom_alg', funcText);
-    }, 500);
+  try {
+    customAlg = new Function('data', funcText);
+  } catch (e) {
+    throw new Error("Something went badly wrong!");
+    customAlg = null;
   }
+
+  tile.redraw();
 };
 
 var CanvasLayer = L.TileLayer.extend({
@@ -185,7 +175,7 @@ var tile = new CanvasLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
 }).addTo(map);
 
 
-document.getElementById('alg').innerHTML = localStorage.getItem('custom_alg') || 'for (var i = 0; i < data.data.length; i += 4) {' +
+document.getElementById('alg').innerHTML = 'for (var i = 0; i < data.data.length; i += 4) {' +
   '\n\tdata.data[i] = 50 + data.data[i];' +
   '\n\tdata.data[i + 1] = 0 + data.data[i + 1];' +
   '\n\tdata.data[i + 2] = -50 + data.data[i + 2];' +
